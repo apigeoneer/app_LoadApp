@@ -1,10 +1,14 @@
 package com.gmail.apigeoneer.loadapp
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.app.DownloadManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +18,7 @@ import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.animation.addListener
 import androidx.databinding.DataBindingUtil
 import com.gmail.apigeoneer.loadapp.databinding.ActivityMainBinding
 
@@ -64,6 +69,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun downloadAnimator() {
-        TODO("Not yet implemented")
+        val animator = ObjectAnimator.ofArgb(binding.downloadCv, "backgroundColor", Color.GRAY, Color.GREEN)
+        animator.duration = 400
+        animator.repeatCount = 1
+        animator.repeatMode = ObjectAnimator.REVERSE
+        animator.disableDuringAnimation(binding.downloadCv)
+        animator.start()
     }
+
+    private fun ObjectAnimator.disableDuringAnimation(view: View) {
+        addListener(object: AnimatorListenerAdapter() {
+            override fun onAnimationStart(animation: Animator?) {
+                binding.downloadCv.isEnabled = false
+            }
+
+            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+                binding.downloadCv.isEnabled = true
+            }
+        })
+    }
+
 }
