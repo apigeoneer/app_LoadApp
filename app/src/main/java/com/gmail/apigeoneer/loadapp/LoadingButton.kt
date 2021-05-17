@@ -20,16 +20,25 @@ class DownloadButton @JvmOverloads constructor(
     // WHAT TO DRAW: Canvas
 
     // HOW TO DRAW : Paint
-    private val paint = Paint(ANTI_ALIAS_FLAG).apply {
+    private val paintRect = Paint(ANTI_ALIAS_FLAG).apply {
+        color = Color.GRAY
+        style = Paint.Style.FILL
+    }
 
-      //  textSize = textSize
+    private val paintText = Paint(ANTI_ALIAS_FLAG).apply {
+        color = Color.BLACK
+        style = Paint.Style.FILL
+        textSize = 60.0F
+    }
+
+    private val paintCircle = Paint(ANTI_ALIAS_FLAG).apply {
+        color = Color.YELLOW
+        style = Paint.Style.FILL
     }
 
     // onSizeChanged() -> NOT NEEDED, SINCE WE HAVE onMeasure()
 
-    /**
-     * If you need finer control over your view's layout parameters
-     */
+    // If you need finer control over your view's layout parameters
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         // Try for a width based on our minimum
         val minw: Int = paddingLeft + paddingRight + suggestedMinimumWidth
@@ -53,14 +62,13 @@ class DownloadButton @JvmOverloads constructor(
         setMeasuredDimension(w, h)
     }
 
-//    /**
-//     * onDraw() -> implemented after we have defined our obj creation & measuring code
-//     */
-//    override fun onDraw(canvas: Canvas?) {
-//        super.onDraw(canvas)
-//
-//        canvas.apply {
-//           // this!!.drawText("Download", textX, textY, textPaint)
-//        }
-//    }
+    override fun onDraw(canvas: Canvas?) {
+        // draw the download rectangle
+        canvas?.drawRect(0.0F, height.toFloat() - 150, width.toFloat(), height.toFloat(), paintRect)
+        // draw download text
+        canvas?.drawText("DOWNLOAD", width.toFloat() / 3, height.toFloat() - 50, paintText)
+        // draw download circle
+        canvas?.drawCircle(width.toFloat() * 2 / 3 + 40, height.toFloat() - 75, 40.0F, paintCircle)
+
+    }
 }

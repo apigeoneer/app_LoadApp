@@ -32,12 +32,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        binding.downloadCv.setOnClickListener {
-            DownloadUtil(this).download(urlSelected, repoSelected)
-        }
-
         // register the download receiver
         registerReceiver(DownloadUtil(this).receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+
+        binding.downloadCv.setOnClickListener {
+            DownloadUtil(this).download(urlSelected, repoSelected)
+            downloadAnimator()
+        }
 
     }
 
@@ -60,5 +61,9 @@ class MainActivity : AppCompatActivity() {
                     }
             }
         }
+    }
+
+    private fun downloadAnimator() {
+        TODO("Not yet implemented")
     }
 }
