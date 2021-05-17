@@ -12,7 +12,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Download Github Repos"
+            android:text="Download Github Repo"
             android:textAlignment="center"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -20,40 +20,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.25">
-
-            <RadioButton
-                android:id="@+id/glide_rb"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Glide"
-                android:textSize="18sp" />
-
-            <RadioButton
-                android:id="@+id/loadapp_rb"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Load App"
-                android:textSize="18sp" />
-
-            <RadioButton
-                android:id="@+id/retrofit_rb"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Retrofit"
-                android:textSize="18sp" />
-        </RadioGroup>
 
         <Button
             android:id="@+id/download_btn"
