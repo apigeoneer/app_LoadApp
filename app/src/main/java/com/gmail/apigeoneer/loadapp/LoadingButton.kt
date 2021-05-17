@@ -64,11 +64,11 @@ class DownloadButton @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         // draw the download rectangle
-        canvas?.drawRect(0.0F, height.toFloat() - 150, width.toFloat(), height.toFloat(), paintRect)
+        canvas?.drawRect(0.0F, height.toFloat() - 160, width.toFloat(), height.toFloat(), paintRect)
         // draw download text
-        canvas?.drawText("DOWNLOAD", width.toFloat() / 3, height.toFloat() - 50, paintText)
+        canvas?.drawText("DOWNLOAD", width.toFloat() / 3, height.toFloat() - 55, paintText)
         // draw download circle
-        canvas?.drawCircle(width.toFloat() * 2 / 3 + 40, height.toFloat() - 75, 40.0F, paintCircle)
+        canvas?.drawCircle(width.toFloat() * 2 / 3 + 40, height.toFloat() - 80, 40.0F, paintCircle)
 
     }
 }
