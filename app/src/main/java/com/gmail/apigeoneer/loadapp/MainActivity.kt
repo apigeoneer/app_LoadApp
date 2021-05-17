@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
 
     // data binding
     private lateinit var binding: ActivityMainBinding
-    private var downloadID: Long = 0
     private var urlSelected = "https://github.com/bumptech/glide.git"       // default: Glide
     private var repoSelected = "Glide repo"
 
@@ -33,11 +32,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        binding.downloadBtn.setOnClickListener {
-            download(urlSelected, repoSelected)
+        binding.downloadCv.setOnClickListener {
+            DownloadUtil(this).download(urlSelected, repoSelected)
         }
 
-        registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        // register the download receiver
+        registerReceiver(DownloadUtil(this).receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
     }
 
@@ -60,28 +60,5 @@ class MainActivity : AppCompatActivity() {
                     }
             }
         }
-    }
-
-    private val receiver = object: BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-
-            if (id == downloadID) {
-                Toast.makeText(context, "File downloaded", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun download(selectedURL: String, selectedRepo: String) {
-        val request =
-            DownloadManager.Request(Uri.parse(selectedURL))
-                .setTitle(selectedRepo)
-                .setDescription("Downloading $selectedRepo from internet")
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-                .setAllowedOverMetered(true)
-                .setAllowedOverRoaming(true)
-
-        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        downloadID = downloadManager.enqueue(request)        // enqueue puts the download request in the queue
     }
 }
