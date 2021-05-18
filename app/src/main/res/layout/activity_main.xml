@@ -60,7 +60,7 @@
                 android:textSize="18sp" />
         </RadioGroup>
 
-        <com.gmail.apigeoneer.loadapp.DownloadButton
+        <com.gmail.apigeoneer.loadapp.LoadingButton
             android:id="@+id/download_cv"
             android:layout_width="0dp"
             android:layout_height="58dp"

@@ -14,7 +14,7 @@ import android.view.View
 import android.view.animation.LinearInterpolator
 import kotlin.properties.Delegates
 
-class DownloadButton @JvmOverloads constructor(
+class LoadingButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -23,11 +23,11 @@ class DownloadButton @JvmOverloads constructor(
     private var widthSize = 0
     private var heightSize = 0
 
-    private val progress = 0F
-    private val angle = 0F
+    private var progress = 0F
+    private var angle = 0F
 
-    private val btnAnimator = ValueAnimator()
-    private val circleAnimator = ValueAnimator()
+    private var btnValueAnimator = ValueAnimator()
+    private var circleValueAnimator = ValueAnimator()
 
     // WHAT TO DRAW: Canvas
 
@@ -97,23 +97,49 @@ class DownloadButton @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         // draw the download rectangle
-        canvas?.drawRect(0.0F, height.toFloat() - 160, width.toFloat(), height.toFloat(), paintRect)
+        canvas?.drawRect(0F, 0F, widthSize.toFloat(), heightSize.toFloat(), paintRect)
         // draw download text
         canvas?.drawText(ButtonText(buttonState), width.toFloat() / 3, height.toFloat() - 55, paintText)
         // draw download circle
         canvas?.drawCircle(width.toFloat() * 2 / 3 + 40, height.toFloat() - 80, 40.0F, paintCircle)
-
     }
 
+    // animate the button
     private fun btnAnimator() {
-        // animate the button
+        btnValueAnimator = ValueAnimator.ofFloat(0F, widthSize.toFloat()).apply {
+            duration = 1000
+            addUpdateListener { valueAnimator ->
+                progress = valueAnimator.animatedValue as Float
+                valueAnimator.repeatCount = ValueAnimator.INFINITE
+                valueAnimator.repeatMode = ValueAnimator.REVERSE
+                valueAnimator.interpolator = LinearInterpolator()         // default, so not really needed
+                invalidate()
+            }
+            start()
+        }
     }
 
+    // animate the circle
     private fun circleAnimator() {
-        // animate the circle
+        circleValueAnimator = ValueAnimator.ofFloat(0F, 360F).apply {
+            duration = 1000
+            addUpdateListener { valueAnimator ->
+                angle = valueAnimator.animatedValue as Float
+                valueAnimator.repeatCount = ValueAnimator.INFINITE
+                valueAnimator.repeatMode = ValueAnimator.REVERSE
+                invalidate()
+            }
+            // disable during animation
+            start()
+        }
     }
 
     private fun stopAnimations() {
         // stop the animations
+        progress = 0F
+        angle = 0F
+        btnValueAnimator.end()
+        circleValueAnimator.end()
+        invalidate()
     }
 }
