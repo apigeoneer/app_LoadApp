@@ -1,8 +1,5 @@
 package com.gmail.apigeoneer.loadapp
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
@@ -23,13 +20,19 @@ class LoadingButton @JvmOverloads constructor(
     private var widthSize = 0
     private var heightSize = 0
 
+    private var buttonBackground = 0
+    private var buttonText = ""
     private var progress = 0F
     private var angle = 0F
 
     private var btnValueAnimator = ValueAnimator()
     private var circleValueAnimator = ValueAnimator()
 
-    // WHAT TO DRAW: Canvas
+    init {
+        isClickable = true
+        buttonBackground = R.styleable.LoadingButton_buttonBackground
+       // buttonText = R.styleable.                                        // unable to use
+    }
 
     // HOW TO DRAW : Paint
     private val paintRect = Paint(ANTI_ALIAS_FLAG).apply {
@@ -48,7 +51,7 @@ class LoadingButton @JvmOverloads constructor(
         style = Paint.Style.FILL
     }
 
-    private var buttonState by Delegates
+    private var btnState by Delegates
             .observable<ButtonState>(ButtonState.Completed) { p, old, new ->
                 when (new) {
                     ButtonState.Clicked -> {
@@ -67,11 +70,6 @@ class LoadingButton @JvmOverloads constructor(
                     }
                 }
             }
-
-    init {
-        isClickable = true
-    }
-
 
     // onSizeChanged() -> NOT NEEDED, SINCE WE HAVE onMeasure()
 
@@ -100,10 +98,16 @@ class LoadingButton @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas?) {
+        // WHAT TO DRAW: Canvas
+
         // draw the download rectangle
         canvas?.drawRect(0F, 0F, widthSize.toFloat(), heightSize.toFloat(), paintRect)
         // draw download text
-        canvas?.drawText(ButtonText(buttonState), width.toFloat() / 3, height.toFloat() - 55, paintText)
+        buttonText = when (btnState) {
+            ButtonState.Loading -> "Downloading..."
+            else -> "DOWNLOAD"
+        }
+        canvas?.drawText(buttonText, width.toFloat() / 3, height.toFloat() - 55, paintText)
         // draw download circle
         canvas?.drawCircle(width.toFloat() * 2 / 3 + 40, height.toFloat() - 80, 40.0F, paintCircle)
     }

@@ -38,10 +38,10 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         // register the download receiver
-        registerReceiver(DownloadUtil(this).receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        registerReceiver(DownloadUtil(this, binding.downloadCv).receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
         binding.downloadCv.setOnClickListener {
-            DownloadUtil(this).download(urlSelected, repoSelected)
+            DownloadUtil(this, binding.downloadCv).download(urlSelected, repoSelected)
         }
     }
 
