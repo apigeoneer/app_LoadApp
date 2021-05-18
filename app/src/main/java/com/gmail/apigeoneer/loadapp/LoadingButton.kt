@@ -29,7 +29,6 @@ class LoadingButton @JvmOverloads constructor(
     private var circleValueAnimator = ValueAnimator()
 
     init {
-        isClickable = true
         buttonBackground = R.styleable.LoadingButton_buttonBackground
        // buttonText = R.styleable.                                        // unable to use
     }
@@ -123,13 +122,6 @@ class LoadingButton @JvmOverloads constructor(
                 heightSize.toFloat() / 2 + 50f, 0.0F, angle, true, paintCircle)
     }
 
-    override fun performClick(): Boolean {
-        if (super.performClick())
-            return true
-        invalidate()
-        return true
-    }
-
     // animate the button
     private fun btnAnimator() {
         btnValueAnimator = ValueAnimator.ofFloat(0F, widthSize.toFloat()).apply {
@@ -168,6 +160,4 @@ class LoadingButton @JvmOverloads constructor(
         circleValueAnimator.end()
         invalidate()
     }
-
-
 }
