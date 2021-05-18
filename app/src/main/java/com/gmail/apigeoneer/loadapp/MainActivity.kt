@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
+        private const val LOADAPP_URL = "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter.git"
+        private const val RETROFIT_URL = "https://github.com/square/retrofit.git"
     }
 
     // data binding
@@ -54,12 +56,12 @@ class MainActivity : AppCompatActivity() {
             when (view.getId()) {
                 R.id.loadapp_rb ->
                     if (checked) {
-                        urlSelected = "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter.git"
+                        urlSelected = LOADAPP_URL
                         repoSelected = "Load app repo"
                     }
                 R.id.retrofit_rb ->
                     if (checked) {
-                        urlSelected = "https://github.com/square/retrofit.git"
+                        urlSelected = RETROFIT_URL
                         repoSelected = "Retrofit repo"
                     }
             }

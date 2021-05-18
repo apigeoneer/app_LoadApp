@@ -118,7 +118,9 @@ class LoadingButton @JvmOverloads constructor(
         canvas?.drawText(buttonText, width.toFloat() / 3, height.toFloat() - 55, paintText)
 
         // draw download circle
-        canvas?.drawCircle(width.toFloat() * 2 / 3 + 40, height.toFloat() - 80, 40.0F, paintCircle)
+        //canvas?.drawCircle(width.toFloat() * 2 / 3 + 40, height.toFloat() - 80, 40.0F, paintCircle)     // WRONG APPROACH
+        canvas?.drawArc(widthSize.toFloat() - 150f, heightSize.toFloat() / 2 - 50f, widthSize.toFloat()-50f,
+                heightSize.toFloat() / 2 + 50f, 0.0F, angle, true, paintCircle)
     }
 
     override fun performClick(): Boolean {
