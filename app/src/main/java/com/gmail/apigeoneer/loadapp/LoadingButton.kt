@@ -1,5 +1,9 @@
 package com.gmail.apigeoneer.loadapp
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -7,6 +11,7 @@ import android.graphics.Paint
 import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.LinearInterpolator
 import kotlin.properties.Delegates
 
 class DownloadButton @JvmOverloads constructor(
@@ -17,6 +22,12 @@ class DownloadButton @JvmOverloads constructor(
 
     private var widthSize = 0
     private var heightSize = 0
+
+    private val progress = 0F
+    private val angle = 0F
+
+    private val btnAnimator = ValueAnimator()
+    private val circleAnimator = ValueAnimator()
 
     // WHAT TO DRAW: Canvas
 
@@ -45,11 +56,14 @@ class DownloadButton @JvmOverloads constructor(
                     }
 
                     ButtonState.Loading -> {
-                        // start loading animation
+                        // start loading the animations
+                        btnAnimator()
+                        circleAnimator()
                     }
 
                     ButtonState.Completed -> {
-                        // stop the animation
+                        // stop the animations
+                        stopAnimations()
                     }
                 }
             }
@@ -89,5 +103,17 @@ class DownloadButton @JvmOverloads constructor(
         // draw download circle
         canvas?.drawCircle(width.toFloat() * 2 / 3 + 40, height.toFloat() - 80, 40.0F, paintCircle)
 
+    }
+
+    private fun btnAnimator() {
+        // animate the button
+    }
+
+    private fun circleAnimator() {
+        // animate the circle
+    }
+
+    private fun stopAnimations() {
+        // stop the animations
     }
 }

@@ -42,9 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.downloadCv.setOnClickListener {
             DownloadUtil(this).download(urlSelected, repoSelected)
-            downloadAnimator()
         }
-
     }
 
     fun onRadioButtonClicked(view: View) {
@@ -66,29 +64,6 @@ class MainActivity : AppCompatActivity() {
                     }
             }
         }
-    }
-
-    private fun downloadAnimator() {
-        val animator = ObjectAnimator.ofArgb(binding.downloadCv, "backgroundColor", Color.GRAY, Color.GREEN)
-        animator.duration = 400
-        animator.repeatCount = ObjectAnimator.INFINITE
-        animator.repeatMode = ObjectAnimator.REVERSE
-        animator.disableDuringAnimation(binding.downloadCv)
-        animator.start()
-
-        // if download is completed, stop the animation
-    }
-
-    private fun ObjectAnimator.disableDuringAnimation(view: View) {
-        addListener(object: AnimatorListenerAdapter() {
-            override fun onAnimationStart(animation: Animator?) {
-                binding.downloadCv.isEnabled = false
-            }
-
-            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
-                binding.downloadCv.isEnabled = true
-            }
-        })
     }
 
 }
