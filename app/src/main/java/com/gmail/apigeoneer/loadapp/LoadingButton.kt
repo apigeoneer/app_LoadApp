@@ -40,6 +40,11 @@ class LoadingButton @JvmOverloads constructor(
         style = Paint.Style.FILL
     }
 
+    private val paintRectFill = Paint(ANTI_ALIAS_FLAG).apply {
+        color = Color.GREEN
+        style = Paint.Style.FILL
+    }
+
     private val paintText = Paint(ANTI_ALIAS_FLAG).apply {
         color = Color.BLACK
         style = Paint.Style.FILL
@@ -102,12 +107,16 @@ class LoadingButton @JvmOverloads constructor(
 
         // draw the download rectangle
         canvas?.drawRect(0F, 0F, widthSize.toFloat(), heightSize.toFloat(), paintRect)
+        // draw the download fill
+        canvas?.drawRect(0F, 0F, progress, heightSize.toFloat(), paintRectFill)
+
         // draw download text
         buttonText = when (btnState) {
             ButtonState.Loading -> "Downloading..."
             else -> "DOWNLOAD"
         }
         canvas?.drawText(buttonText, width.toFloat() / 3, height.toFloat() - 55, paintText)
+
         // draw download circle
         canvas?.drawCircle(width.toFloat() * 2 / 3 + 40, height.toFloat() - 80, 40.0F, paintCircle)
     }
