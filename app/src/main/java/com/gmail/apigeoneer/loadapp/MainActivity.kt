@@ -1,61 +1,71 @@
 package com.gmail.apigeoneer.loadapp
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.app.DownloadManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.animation.addListener
 import androidx.databinding.DataBindingUtil
 import com.gmail.apigeoneer.loadapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        private const val URL = "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip"
+        private const val TAG = "MainActivity"
+        private const val LOADAPP_URL = "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter.git"
+        private const val RETROFIT_URL = "https://github.com/square/retrofit.git"
     }
 
     // data binding
     private lateinit var binding: ActivityMainBinding
-
-    private var downloadID: Long = 0
+    private var urlSelected = "https://github.com/bumptech/glide.git"       // default: Glide
+    private var repoSelected = "Glide repo"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        binding.downloadBtn.setOnClickListener {
-            download()
-        }
+        // register the download receiver
+        registerReceiver(DownloadUtil(this, binding.downloadCv).receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
-        registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        binding.downloadCv.setOnClickListener {
+            DownloadUtil(this, binding.downloadCv).download(urlSelected, repoSelected)
+        }
     }
 
-    private val receiver = object: BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+    fun onRadioButtonClicked(view: View) {
+        if (view is RadioButton) {
+            // Is the button now checked?
+            val checked = view.isChecked
 
-            if (id == downloadID) {
-                Toast.makeText(context, "File downloaded", Toast.LENGTH_SHORT).show()
+            // Check which radio button was clicked
+            when (view.getId()) {
+                R.id.loadapp_rb ->
+                    if (checked) {
+                        urlSelected = LOADAPP_URL
+                        repoSelected = "Load app repo"
+                    }
+                R.id.retrofit_rb ->
+                    if (checked) {
+                        urlSelected = RETROFIT_URL
+                        repoSelected = "Retrofit repo"
+                    }
             }
         }
     }
 
-    private fun download() {
-        val request =
-            DownloadManager.Request(Uri.parse(URL))
-                .setTitle(getString(R.string.app_name))
-                .setDescription(getString(R.string.app_description))
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-                .setAllowedOverMetered(true)
-                .setAllowedOverRoaming(true)
-
-        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        downloadID = downloadManager.enqueue(request)        // enqueue puts the download request in the queue
-    }
 }

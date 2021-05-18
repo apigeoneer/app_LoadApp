@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Load App</string>
     <string name="app_description">Download files from Internet</string>
+    <string name="btn_text">DOWNLOAD</string>
 </resources>
