@@ -68,6 +68,10 @@ class LoadingButton @JvmOverloads constructor(
                 }
             }
 
+    init {
+        isClickable = true
+    }
+
 
     // onSizeChanged() -> NOT NEEDED, SINCE WE HAVE onMeasure()
 
@@ -102,6 +106,13 @@ class LoadingButton @JvmOverloads constructor(
         canvas?.drawText(ButtonText(buttonState), width.toFloat() / 3, height.toFloat() - 55, paintText)
         // draw download circle
         canvas?.drawCircle(width.toFloat() * 2 / 3 + 40, height.toFloat() - 80, 40.0F, paintCircle)
+    }
+
+    override fun performClick(): Boolean {
+        if (super.performClick())
+            return true
+        invalidate()
+        return true
     }
 
     // animate the button
@@ -142,4 +153,6 @@ class LoadingButton @JvmOverloads constructor(
         circleValueAnimator.end()
         invalidate()
     }
+
+
 }
