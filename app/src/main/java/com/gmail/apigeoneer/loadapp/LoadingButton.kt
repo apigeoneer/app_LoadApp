@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.util.AttributeSet
 import android.view.View
+import kotlin.properties.Delegates
 
 class DownloadButton @JvmOverloads constructor(
     context: Context,
@@ -35,6 +36,24 @@ class DownloadButton @JvmOverloads constructor(
         color = Color.YELLOW
         style = Paint.Style.FILL
     }
+
+    private var buttonState by Delegates
+            .observable<ButtonState>(ButtonState.Completed) { p, old, new ->
+                when (new) {
+                    ButtonState.Clicked -> {
+                        // do something
+                    }
+
+                    ButtonState.Loading -> {
+                        // start loading animation
+                    }
+
+                    ButtonState.Completed -> {
+                        // stop the animation
+                    }
+                }
+            }
+
 
     // onSizeChanged() -> NOT NEEDED, SINCE WE HAVE onMeasure()
 
@@ -66,7 +85,7 @@ class DownloadButton @JvmOverloads constructor(
         // draw the download rectangle
         canvas?.drawRect(0.0F, height.toFloat() - 160, width.toFloat(), height.toFloat(), paintRect)
         // draw download text
-        canvas?.drawText("DOWNLOAD", width.toFloat() / 3, height.toFloat() - 55, paintText)
+        canvas?.drawText(ButtonText(buttonState), width.toFloat() / 3, height.toFloat() - 55, paintText)
         // draw download circle
         canvas?.drawCircle(width.toFloat() * 2 / 3 + 40, height.toFloat() - 80, 40.0F, paintCircle)
 

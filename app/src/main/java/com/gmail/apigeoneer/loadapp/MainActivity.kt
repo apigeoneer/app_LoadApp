@@ -71,10 +71,12 @@ class MainActivity : AppCompatActivity() {
     private fun downloadAnimator() {
         val animator = ObjectAnimator.ofArgb(binding.downloadCv, "backgroundColor", Color.GRAY, Color.GREEN)
         animator.duration = 400
-        animator.repeatCount = 1
+        animator.repeatCount = ObjectAnimator.INFINITE
         animator.repeatMode = ObjectAnimator.REVERSE
         animator.disableDuringAnimation(binding.downloadCv)
         animator.start()
+
+        // if download is completed, stop the animation
     }
 
     private fun ObjectAnimator.disableDuringAnimation(view: View) {
