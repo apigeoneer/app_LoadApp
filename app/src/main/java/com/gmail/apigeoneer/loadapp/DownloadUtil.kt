@@ -23,15 +23,14 @@ class DownloadUtil (
             if (id == downloadID) {
                 Toast.makeText(context, "File downloaded", Toast.LENGTH_SHORT).show()
                 // reset the download button
-
-                ButtonState.Completed
+                downloadButton.setButtonState(ButtonState.Completed)
             }
         }
     }
 
     fun download(selectedURL: String, selectedRepo: String) {
         // set the download button to the loading state
-        ButtonState.Loading
+        downloadButton.setButtonState(ButtonState.Loading)
 
         val request =
                 DownloadManager.Request(Uri.parse(selectedURL))

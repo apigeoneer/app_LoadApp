@@ -160,4 +160,9 @@ class LoadingButton @JvmOverloads constructor(
         circleValueAnimator.end()
         invalidate()
     }
+
+    // Create a member function that sets the button state
+    fun setButtonState(buttonState: ButtonState) {
+        btnState = buttonState
+    }
 }
