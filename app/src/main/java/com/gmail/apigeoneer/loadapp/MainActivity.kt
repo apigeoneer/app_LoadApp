@@ -1,11 +1,14 @@
 package com.gmail.apigeoneer.loadapp
 
+import android.app.Application
 import android.app.DownloadManager
+import android.app.NotificationManager
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.gmail.apigeoneer.loadapp.databinding.ActivityMainBinding
 
@@ -18,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     // data binding
     private lateinit var binding: ActivityMainBinding
+    private lateinit var notificationManager: NotificationManager
     private var urlSelected = "https://github.com/bumptech/glide.git"       // default: Glide
     private var repoSelected = "Glide repo"
 
@@ -31,6 +35,10 @@ class MainActivity : AppCompatActivity() {
         binding.downloadCv.setOnClickListener {
             DownloadUtils(this, binding.downloadCv).download(urlSelected, repoSelected)
         }
+
+        notificationManager = ContextCompat.getSystemService(
+                this, NotificationManager::class.java
+        ) as NotificationManager
     }
 
     fun onRadioButtonClicked(view: View) {

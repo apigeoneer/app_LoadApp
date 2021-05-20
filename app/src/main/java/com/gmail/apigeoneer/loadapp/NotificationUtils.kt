@@ -21,5 +21,6 @@ fun NotificationManager.sendNotification(
                     .getString(R.string.notification_title))
             .setContentText(messageBody)
 
+    // Deliver the notification
     notify(NOTIFICATION_ID, builder.build())
 }
