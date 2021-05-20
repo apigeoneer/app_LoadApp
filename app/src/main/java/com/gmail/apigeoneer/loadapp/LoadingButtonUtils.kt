@@ -21,10 +21,11 @@ class LoadingButtonUtils(
             addUpdateListener { valueAnimator ->
                 progress = valueAnimator.animatedValue as Float
                 valueAnimator.repeatCount = ValueAnimator.INFINITE
-                valueAnimator.repeatMode = ValueAnimator.REVERSE
-                valueAnimator.interpolator = LinearInterpolator()         // default, so not really needed
+                valueAnimator.repeatMode = ValueAnimator.RESTART
+               // valueAnimator.interpolator = LinearInterpolator()         // default, so not really needed
                 loadingButton.invalidate()
             }
+            // disable during animation
             start()
         }
     }
