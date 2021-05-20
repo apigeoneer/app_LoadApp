@@ -21,11 +21,11 @@ class LoadingButton @JvmOverloads constructor(
     private var buttonBackground = 0
     private var buttonText = ""
 
-    val loadingButtonUtils = LoadingButtonUtils(this, widthSize)
+    private val loadingButtonUtils = LoadingButtonUtils(this, widthSize)
 
     init {
         buttonBackground = R.styleable.LoadingButton_buttonBackground
-       // buttonText = R.styleable.                                        // unable to use
+        buttonText =R.styleable.LoadingButton_buttonText.toString()
     }
 
     // HOW TO DRAW : Paint

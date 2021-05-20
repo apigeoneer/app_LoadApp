@@ -36,7 +36,7 @@ class LoadingButtonUtils(
             addUpdateListener { valueAnimator ->
                 angle = valueAnimator.animatedValue as Float
                 valueAnimator.repeatCount = ValueAnimator.INFINITE
-                valueAnimator.repeatMode = ValueAnimator.REVERSE
+                valueAnimator.repeatMode = ValueAnimator.RESTART
                 loadingButton.invalidate()
             }
             // disable during animation
