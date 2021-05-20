@@ -13,6 +13,16 @@ fun NotificationManager.sendNotification(
 
     val NOTIFICATION_ID = 0
 
+    // Since building the notification uses the pending intent, the intents come first
+    val contentIntent = Intent(applicationContext, DetailActivity::class.java)
+
+    val contentPendingIntent =  PendingIntent.getActivity(
+            applicationContext,
+            NOTIFICATION_ID,
+            contentIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+    )
+
     // Build the notification
     val builder = NotificationCompat.Builder(
             applicationContext,
@@ -22,6 +32,9 @@ fun NotificationManager.sendNotification(
             .setContentTitle(applicationContext
                     .getString(R.string.notification_title))
             .setContentText(messageBody)
+
+            .setContentIntent(contentPendingIntent)
+            .setAutoCancel(true)
 
     // Deliver the notification
     notify(NOTIFICATION_ID, builder.build())
