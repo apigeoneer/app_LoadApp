@@ -1,6 +1,5 @@
 package com.gmail.apigeoneer.loadapp
 
-import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -8,7 +7,6 @@ import android.graphics.Paint
 import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.LinearInterpolator
 import kotlin.properties.Delegates
 
 class LoadingButton @JvmOverloads constructor(
@@ -22,11 +20,8 @@ class LoadingButton @JvmOverloads constructor(
 
     private var buttonBackground = 0
     private var buttonText = ""
-    private var progress = 0F
-    private var angle = 0F
 
-    private var btnValueAnimator = ValueAnimator()
-    private var circleValueAnimator = ValueAnimator()
+    val loadingButtonUtils = LoadingButtonUtils(this, widthSize)
 
     init {
         buttonBackground = R.styleable.LoadingButton_buttonBackground
@@ -64,13 +59,13 @@ class LoadingButton @JvmOverloads constructor(
 
                     ButtonState.Loading -> {
                         // start loading the animations
-                        btnAnimator()
-                        circleAnimator()
+                        loadingButtonUtils.btnAnimator()
+                        loadingButtonUtils.circleAnimator()
                     }
 
                     ButtonState.Completed -> {
                         // stop the animations
-                        stopAnimations()
+                        loadingButtonUtils.stopAnimations()
                     }
                 }
             }
@@ -107,7 +102,7 @@ class LoadingButton @JvmOverloads constructor(
         // draw the download rectangle
         canvas?.drawRect(0F, 0F, widthSize.toFloat(), heightSize.toFloat(), paintRect)
         // draw the download fill
-        canvas?.drawRect(0F, 0F, progress, heightSize.toFloat(), paintRectFill)
+        canvas?.drawRect(0F, 0F, loadingButtonUtils.progress, heightSize.toFloat(), paintRectFill)
 
         // draw download text
         buttonText = when (btnState) {
@@ -119,46 +114,7 @@ class LoadingButton @JvmOverloads constructor(
         // draw download circle
         //canvas?.drawCircle(width.toFloat() * 2 / 3 + 40, height.toFloat() - 80, 40.0F, paintCircle)     // WRONG APPROACH
         canvas?.drawArc(widthSize.toFloat() - 150f, heightSize.toFloat() / 2 - 50f, widthSize.toFloat()-50f,
-                heightSize.toFloat() / 2 + 50f, 0.0F, angle, true, paintCircle)
-    }
-
-    // animate the button
-    private fun btnAnimator() {
-        btnValueAnimator = ValueAnimator.ofFloat(0F, widthSize.toFloat()).apply {
-            duration = 1000
-            addUpdateListener { valueAnimator ->
-                progress = valueAnimator.animatedValue as Float
-                valueAnimator.repeatCount = ValueAnimator.INFINITE
-                valueAnimator.repeatMode = ValueAnimator.REVERSE
-                valueAnimator.interpolator = LinearInterpolator()         // default, so not really needed
-                invalidate()
-            }
-            start()
-        }
-    }
-
-    // animate the circle
-    private fun circleAnimator() {
-        circleValueAnimator = ValueAnimator.ofFloat(0F, 360F).apply {
-            duration = 1000
-            addUpdateListener { valueAnimator ->
-                angle = valueAnimator.animatedValue as Float
-                valueAnimator.repeatCount = ValueAnimator.INFINITE
-                valueAnimator.repeatMode = ValueAnimator.REVERSE
-                invalidate()
-            }
-            // disable during animation
-            start()
-        }
-    }
-
-    private fun stopAnimations() {
-        // stop the animations
-        progress = 0F
-        angle = 0F
-        btnValueAnimator.end()
-        circleValueAnimator.end()
-        invalidate()
+                heightSize.toFloat() / 2 + 50f, 0.0F, loadingButtonUtils.angle, true, paintCircle)    // copied
     }
 
     // Create a member function that sets the button state

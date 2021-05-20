@@ -5,14 +5,19 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 
 // need to create a class, since need to pass context
 // since Can't access getSystemService() from o/s an activity w/o context
-class DownloadUtil (
+class DownloadUtils (
         private val context: Context,
         private val downloadButton: LoadingButton
 ) {
+
+    companion object {
+        private const val TAG = "DownloadUtil"
+    }
 
      private var downloadID: Long = 0
 
@@ -22,6 +27,7 @@ class DownloadUtil (
 
             if (id == downloadID) {
                 Toast.makeText(context, "File downloaded", Toast.LENGTH_SHORT).show()
+                Log.d(TAG, "Downloaded")
                 // reset the download button
                 downloadButton.setButtonState(ButtonState.Completed)
             }

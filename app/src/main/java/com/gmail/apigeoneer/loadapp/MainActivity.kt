@@ -1,31 +1,17 @@
 package com.gmail.apigeoneer.loadapp
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
 import android.app.DownloadManager
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Color
-import android.net.Uri
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.RadioButton
-import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.core.animation.addListener
 import androidx.databinding.DataBindingUtil
 import com.gmail.apigeoneer.loadapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        private const val TAG = "MainActivity"
         private const val LOADAPP_URL = "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter.git"
         private const val RETROFIT_URL = "https://github.com/square/retrofit.git"
     }
@@ -40,10 +26,10 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         // register the download receiver
-        registerReceiver(DownloadUtil(this, binding.downloadCv).receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        registerReceiver(DownloadUtils(this, binding.downloadCv).receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
         binding.downloadCv.setOnClickListener {
-            DownloadUtil(this, binding.downloadCv).download(urlSelected, repoSelected)
+            DownloadUtils(this, binding.downloadCv).download(urlSelected, repoSelected)
         }
     }
 
