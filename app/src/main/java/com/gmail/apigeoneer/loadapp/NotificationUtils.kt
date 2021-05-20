@@ -1,7 +1,9 @@
 package com.gmail.apigeoneer.loadapp
 
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import androidx.core.app.NotificationCompat
 
 fun NotificationManager.sendNotification(
@@ -23,4 +25,5 @@ fun NotificationManager.sendNotification(
 
     // Deliver the notification
     notify(NOTIFICATION_ID, builder.build())
+
 }
