@@ -14,7 +14,7 @@ fun NotificationManager.sendNotification(
     // Build the notification
     val builder = NotificationCompat.Builder(
             applicationContext,
-            applicationContext.getString(R.string.download_notification_channel_id)
+            applicationContext.getString(R.string.download_channel_id)
     )
             .setSmallIcon(R.drawable.load)
             .setContentTitle(applicationContext

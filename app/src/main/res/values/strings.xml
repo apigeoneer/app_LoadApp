@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">Load App</string>
     <string name="app_description">Download files from Internet</string>
+
     <string name="btn_text">DOWNLOAD</string>
-    <string name="download_notification_channel_id">download_notification_channel_id</string>
+
     <string name="notification_title">Downloaded Successfully</string>
+    <string name="download_channel_id">download_channel_id</string>
+    <string name="download_notification_channel_name">Download Channel</string>
 </resources>

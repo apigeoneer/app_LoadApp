@@ -1,13 +1,15 @@
 package com.gmail.apigeoneer.loadapp
 
-import android.app.Application
-import android.app.DownloadManager
-import android.app.NotificationManager
+import android.app.*
 import android.content.IntentFilter
+import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.RadioButton
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.gmail.apigeoneer.loadapp.databinding.ActivityMainBinding
@@ -15,6 +17,7 @@ import com.gmail.apigeoneer.loadapp.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     companion object {
+        private const val TAG = "MainActivity"
         private const val LOADAPP_URL = "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter.git"
         private const val RETROFIT_URL = "https://github.com/square/retrofit.git"
     }
@@ -39,6 +42,10 @@ class MainActivity : AppCompatActivity() {
         notificationManager = ContextCompat.getSystemService(
                 this, NotificationManager::class.java
         ) as NotificationManager
+
+        createChannel(
+                getString(R.string.download_channel_id),
+                getString(R.string.download_notification_channel_name))
     }
 
     fun onRadioButtonClicked(view: View) {
@@ -59,6 +66,27 @@ class MainActivity : AppCompatActivity() {
                         repoSelected = "Retrofit repo"
                     }
             }
+        }
+    }
+
+    private fun createChannel(channelId: String, channelName: String) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                    channelId,
+                    channelName,
+                    NotificationManager.IMPORTANCE_LOW
+            )
+
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.RED
+            notificationChannel.enableVibration(true)
+            notificationChannel.description = "You download was successful!"
+
+            notificationManager.createNotificationChannel(notificationChannel)
+        } else {
+            Log.d(TAG, "VERSION.SDK_INT < O")
+            Toast.makeText(this, "VERSION.SDK_INT < O", Toast.LENGTH_SHORT).show()
         }
     }
 
