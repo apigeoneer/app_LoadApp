@@ -1,6 +1,7 @@
 package com.gmail.apigeoneer.loadapp
 
 import android.app.DownloadManager
+import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -12,41 +13,10 @@ import android.widget.Toast
 // since Can't access getSystemService() from o/s an activity w/o context
 class DownloadUtils (
         private val context: Context,
-        private val downloadButton: LoadingButton
+        private val downloadButton: LoadingButton,
+        private val notificationManager: NotificationManager
+     //   private val contentIntent: Intent
 ) {
 
-    companion object {
-        private const val TAG = "DownloadUtil"
-    }
 
-     private var downloadID: Long = 0
-
-     val receiver = object: BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-
-            if (id == downloadID) {
-                Toast.makeText(context, "File downloaded", Toast.LENGTH_SHORT).show()
-                Log.d(TAG, "Downloaded")
-                // reset the download button
-                downloadButton.setButtonState(ButtonState.Completed)
-            }
-        }
-    }
-
-    fun download(selectedURL: String, selectedRepo: String) {
-        // set the download button to the loading state
-        downloadButton.setButtonState(ButtonState.Loading)
-
-        val request =
-                DownloadManager.Request(Uri.parse(selectedURL))
-                        .setTitle(selectedRepo)
-                        .setDescription("Downloading $selectedRepo from internet")
-                        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-                        .setAllowedOverMetered(true)
-                        .setAllowedOverRoaming(true)
-
-        val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        downloadID = downloadManager.enqueue(request)        // enqueue puts the download request in the queue
-    }
 }

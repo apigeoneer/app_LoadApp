@@ -7,4 +7,5 @@
     <string name="notification_title">Downloaded Successfully</string>
     <string name="download_channel_id">download_channel_id</string>
     <string name="download_notification_channel_name">Download Channel</string>
+    <string name="notification_description">Your download was successful!</string>
 </resources>
