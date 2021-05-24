@@ -33,11 +33,15 @@ class MainActivity : AppCompatActivity() {
     private var urlSelected = "https://github.com/bumptech/glide.git"       // default: Glide
     private var repoSelected = "Glide repo"
 
-    private val downloadUtils = DownloadUtils(this, binding.downloadCv, notificationManager)
+    // Don't initialize here, you can't use binding, it's not yet initialized
+    //private val downloadUtils = DownloadUtils(this, binding.downloadCv, notificationManager)
+    private lateinit var downloadUtils: DownloadUtils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        downloadUtils = DownloadUtils(this, binding.downloadCv, notificationManager)
 
         // register the download receiver
         registerReceiver(downloadUtils.receiver,

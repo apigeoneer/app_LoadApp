@@ -7,8 +7,6 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 
 private const val NOTIFICATION_ID = 0
-//private const val REQUEST_CODE = 0
-//private const val FLAGS = 0
 
 fun NotificationManager.sendNotification(
         messageBody: String,
