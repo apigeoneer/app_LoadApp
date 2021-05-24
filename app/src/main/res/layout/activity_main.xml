@@ -8,6 +8,17 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/load"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/title_tv"
             android:layout_width="0dp"
@@ -15,7 +26,8 @@
             android:layout_marginTop="10dp"
             android:text="Download Github Repos"
             android:textAlignment="center"
-            android:textSize="17sp"
+            android:textColor="#545454"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,13 +38,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.25">
+            app:layout_constraintTop_toBottomOf="@+id/imageView">
 
             <RadioButton
                 android:id="@+id/glide_rb"
@@ -64,12 +75,12 @@
             android:id="@+id/download_cv"
             android:layout_width="0dp"
             android:layout_height="58dp"
+            app:buttonBackground="#555555"
+            app:buttonText="@string/btn_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:buttonBackground="#555555"
-            app:buttonText="@string/btn_text" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
