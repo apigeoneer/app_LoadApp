@@ -15,9 +15,16 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
+        // receiving values from the notification
+        fileName = intent.getStringExtra("fileName").toString()
+        status = intent.getStringExtra("status").toString()
+
+        findViewById<TextView>(R.id.file_value_tv).text = fileName
+        findViewById<TextView>(R.id.status_value_tv).text = status
+
         findViewById<Button>(R.id.ok_btn).setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            val intentMain = Intent(this, MainActivity::class.java)
+            startActivity(intentMain)
         }
     }
 }

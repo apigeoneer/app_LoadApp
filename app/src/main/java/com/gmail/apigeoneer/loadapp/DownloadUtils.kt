@@ -14,47 +14,69 @@ import com.gmail.apigeoneer.loadapp.customView.LoadingButton
 // need to create a class, since need to pass context
 // since Can't access getSystemService() from o/s an activity w/o context
 class DownloadUtils (
-        private val context: Context,
-        private val loadingButton: LoadingButton,
-        private val notificationManager: NotificationManager
+    private val context: Context,
+    private val loadingButton: LoadingButton,
+    private val notificationManager: NotificationManager,
+    private val repoSelected: String
 ) {
         companion object {
-                private const val TAG = "DownloadUtils"
+            private const val TAG = "DownloadUtils"
         }
 
         private var downloadID: Long = 0
 
         val receiver = object: BroadcastReceiver() {
-                override fun onReceive(context: Context?, intent: Intent?) {
-                        val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+            override fun onReceive(context: Context?, intent: Intent?) {
+                val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
 
-                        if (id == downloadID) {
-                                Toast.makeText(context, "File downloaded", Toast.LENGTH_SHORT).show()
-                                Log.d(TAG, "Downloaded")
-                                // reset the download button
-                                loadingButton.setButtonState(ButtonState.Completed)
-                        }
+                val action = intent?.action
 
-                        notificationManager.sendNotification(
-                                "Your download was successful!",
-                                context!!
-                        )
+                if (id == downloadID) {
+                    if (action.equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
+                         /**
+                          * get the download status & pass it to the notification
+                          * (so that it could then send it to the detail activity)
+                          */
+                         val query = DownloadManager.Query()
+                         query.setFilterById(id)
+                         val manager = context!!.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                         val cursor = manager.query(query)
+
+                         if (cursor.moveToFirst()) {
+                             if (cursor.count > 0) {
+                                 val status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
+                                 if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                                     notificationManager.sendNotification(
+                                             repoSelected,
+                                             context,
+                                     "Download successful")
+                                 } else {
+                                     notificationManager.sendNotification(
+                                             repoSelected,
+                                             context,
+                                     "Download failed")
+                                 }
+                                 loadingButton.setButtonState(ButtonState.Completed)
+                             }
+                         }
+                    }
                 }
+            }
         }
 
         fun download(selectedURL: String, selectedRepo: String) {
-                // set the download button to the loading state
-                loadingButton.setButtonState(ButtonState.Loading)
+            // set the download button to the loading state
+            loadingButton.setButtonState(ButtonState.Loading)
 
-                val request =
-                        DownloadManager.Request(Uri.parse(selectedURL))
-                                .setTitle(selectedRepo)
-                                .setDescription("Downloading $selectedRepo from internet")
-                                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-                                .setAllowedOverMetered(true)
-                                .setAllowedOverRoaming(true)
+            val request =
+                DownloadManager.Request(Uri.parse(selectedURL))
+                    .setTitle(selectedRepo)
+                    .setDescription("Downloading $selectedRepo from internet")
+                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+                    .setAllowedOverMetered(true)
+                    .setAllowedOverRoaming(true)
 
-                val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-                downloadID = downloadManager.enqueue(request)        // enqueue puts the download request in the queue
+            val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            downloadID = downloadManager.enqueue(request)        // enqueue puts the download request in the queue
         }
 }

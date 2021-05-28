@@ -11,10 +11,16 @@ private const val NOTIFICATION_ID = 0
 
 fun NotificationManager.sendNotification(
         messageBody: String,
-        applicationContext: Context
+        applicationContext: Context,
+        status: String
 ) {
     // Since building the notification uses the pending intent, the intents come first
     val contentIntent = Intent(applicationContext, DetailActivity::class.java)
+    // passing values to the Detail Fragment
+    contentIntent.apply {
+        putExtra("filename", messageBody)
+        putExtra("status", status)
+    }
 
     val contentPendingIntent =  PendingIntent.getActivity(
             applicationContext,

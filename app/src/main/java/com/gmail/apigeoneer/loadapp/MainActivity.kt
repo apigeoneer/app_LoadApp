@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                 this, NotificationManager::class.java
         ) as NotificationManager
 
-        downloadUtils = DownloadUtils(this, binding.downloadCv, notificationManager)
+        downloadUtils = DownloadUtils(this, binding.downloadCv, notificationManager, repoSelected)
 
         // register the download receiver
         registerReceiver(downloadUtils.receiver,

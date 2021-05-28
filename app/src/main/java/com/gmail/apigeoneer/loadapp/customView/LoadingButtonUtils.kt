@@ -1,6 +1,9 @@
 package com.gmail.apigeoneer.loadapp.customView
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
+import android.view.View
 
 class LoadingButtonUtils(
         private val loadingButton: LoadingButton,
@@ -16,7 +19,7 @@ class LoadingButtonUtils(
     // animate the button
     fun btnAnimator() {
         btnValueAnimator = ValueAnimator.ofFloat(0F, 2500F).apply {
-            duration = 1500
+            duration = 2000
             repeatCount = ValueAnimator.INFINITE
             repeatMode = ValueAnimator.RESTART
             addUpdateListener { valueAnimator ->
@@ -25,6 +28,7 @@ class LoadingButtonUtils(
                 loadingButton.invalidate()
             }
             // disable during animation
+            btnValueAnimator.disableDuringAnimation(loadingButton)
             start()
         }
     }
@@ -40,6 +44,7 @@ class LoadingButtonUtils(
                 loadingButton.invalidate()
             }
             // disable during animation
+            circleValueAnimator.disableDuringAnimation(loadingButton)
             start()
         }
     }
@@ -49,6 +54,18 @@ class LoadingButtonUtils(
         btnValueAnimator.end()
         circleValueAnimator.end()
         loadingButton.invalidate()
+    }
+
+
+    private fun ValueAnimator.disableDuringAnimation(view: View) {
+        addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationStart(animation: Animator?) {
+                view.isEnabled = false
+            }
+            override fun onAnimationEnd(animation: Animator?) {
+                view.isEnabled = true
+            }
+        })
     }
 
 }
