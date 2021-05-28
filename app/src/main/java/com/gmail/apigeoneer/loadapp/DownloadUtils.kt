@@ -8,13 +8,15 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
+import com.gmail.apigeoneer.loadapp.customView.ButtonState
+import com.gmail.apigeoneer.loadapp.customView.LoadingButton
 
 // need to create a class, since need to pass context
 // since Can't access getSystemService() from o/s an activity w/o context
 class DownloadUtils (
-    private val context: Context,
-    private val loadingButton: LoadingButton,
-    private val notificationManager: NotificationManager
+        private val context: Context,
+        private val loadingButton: LoadingButton,
+        private val notificationManager: NotificationManager
 ) {
         companion object {
                 private const val TAG = "DownloadUtils"
