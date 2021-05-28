@@ -1,61 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".DetailActivity">
+    <TextView
+        android:id="@+id/file_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="File :  "
+        android:textSize="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/file_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="File :  "
-            android:textSize="15sp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="85dp" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="85dp" />
+    <TextView
+        android:id="@+id/status_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Status :  "
+        android:textSize="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/file_tv" />
 
-        <TextView
-            android:id="@+id/status_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Status :  "
-            android:textSize="15sp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/file_tv" />
+    <TextView
+        android:id="@+id/file_value_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/file_tv"
+        app:layout_constraintStart_toEndOf="@+id/file_tv"
+        app:layout_constraintTop_toTopOf="@+id/file_tv" />
 
-        <TextView
-            android:id="@+id/file_value_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="TextView"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="@+id/file_tv"
-            app:layout_constraintStart_toEndOf="@+id/file_tv"
-            app:layout_constraintTop_toTopOf="@+id/file_tv" />
+    <TextView
+        android:id="@+id/status_value_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="Download Complete"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/status_tv"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/status_tv" />
 
-        <TextView
-            android:id="@+id/status_value_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="Download Complete"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="@+id/status_tv"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="@+id/status_tv" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    <Button
+        android:id="@+id/ok_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="OK"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/status_value_tv" />
+</androidx.constraintlayout.widget.ConstraintLayout>
