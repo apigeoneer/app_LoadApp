@@ -3,9 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#F8F8F8"
+        app:layoutDescription="@xml/activity_main_xml_constraintlayout_scene"
         tools:context=".MainActivity">
 
         <ImageView
@@ -52,6 +55,7 @@
                 android:checked="true"
                 android:onClick="onRadioButtonClicked"
                 android:text="Glide"
+                android:textColor="#434343"
                 android:textSize="18sp" />
 
             <RadioButton
@@ -60,6 +64,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="onRadioButtonClicked"
                 android:text="Load App"
+                android:textColor="#434343"
                 android:textSize="18sp" />
 
             <RadioButton
@@ -68,19 +73,20 @@
                 android:layout_height="wrap_content"
                 android:onClick="onRadioButtonClicked"
                 android:text="Retrofit"
+                android:textColor="#434343"
                 android:textSize="18sp" />
         </RadioGroup>
 
-        <com.gmail.apigeoneer.loadapp.LoadingButton
+        <com.gmail.apigeoneer.loadapp.customView.LoadingButton
             android:id="@+id/download_cv"
             android:layout_width="0dp"
-            android:layout_height="58dp"
-            app:buttonBackground="#555555"
-            app:buttonText="@string/btn_text"
+            android:layout_height="60dp"
+            app:btnBgColor="@color/magenta"
+            app:btnCircleColor="@color/transparent"
+            app:btnTextColor="@color/gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

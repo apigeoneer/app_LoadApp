@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
+        private const val GLIDE_URL = "https://github.com/bumptech/glide.git"
         private const val LOADAPP_URL = "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter.git"
         private const val RETROFIT_URL = "https://github.com/square/retrofit.git"
     }
@@ -30,18 +31,22 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var notificationManager: NotificationManager
-    private var urlSelected = "https://github.com/bumptech/glide.git"       // default: Glide
+    private var urlSelected = GLIDE_URL                                        // default: Glide
     private var repoSelected = "Glide repo"
 
-    // Don't initialize here, you can't use binding, it's not yet initialized
-    //private val downloadUtils = DownloadUtils(this, binding.downloadCv, notificationManager)
+    // Don't initialize here. Since binding's not yet initialized, you can't use it.
+    // private val downloadUtils = DownloadUtils(this, binding.downloadCv, notificationManager)
     private lateinit var downloadUtils: DownloadUtils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        downloadUtils = DownloadUtils(this, binding.downloadCv, notificationManager)
+        notificationManager = ContextCompat.getSystemService(
+                this, NotificationManager::class.java
+        ) as NotificationManager
+
+        downloadUtils = DownloadUtils(this, binding.downloadCv, notificationManager, repoSelected)
 
         // register the download receiver
         registerReceiver(downloadUtils.receiver,
@@ -50,10 +55,6 @@ class MainActivity : AppCompatActivity() {
         binding.downloadCv.setOnClickListener {
             downloadUtils.download(urlSelected, repoSelected)
         }
-
-        notificationManager = ContextCompat.getSystemService(
-                this, NotificationManager::class.java
-        ) as NotificationManager
 
         createChannel(
                 getString(R.string.download_channel_id),
@@ -87,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             val notificationChannel = NotificationChannel(
                     channelId,
                     channelName,
-                    NotificationManager.IMPORTANCE_LOW
+                    NotificationManager.IMPORTANCE_HIGH
             )
 
             notificationChannel.enableLights(true)
