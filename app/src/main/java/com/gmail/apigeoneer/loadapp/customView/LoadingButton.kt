@@ -30,7 +30,7 @@ class LoadingButton @JvmOverloads constructor(
     private var btnBgColor = 0
     private var btnTextColor = 0
     private var btnCircleColor = 0
-    private var btnText = ""
+    private var btnText = "DOWNLOAD"
 
     private val loadingButtonUtils = LoadingButtonUtils(this, width)
 
@@ -46,6 +46,7 @@ class LoadingButton @JvmOverloads constructor(
 
     private val paintCircle = Paint()
 
+    // Delegates.observable -> called when the button's state changes, but not when launching the app
     private var btnState by Delegates
             .observable<ButtonState>(ButtonState.Completed) { p, oldState, newState ->
                 when (newState) {
