@@ -123,10 +123,6 @@ class LoadingButton @JvmOverloads constructor(
         paintRect.color = Color.GRAY
         canvas!!.drawRect(0F, 0F, widthSize.toFloat(), heightSize.toFloat(), paintRect)
 
-        // draw the download fill
-        paintRect.color = getColor(context, R.color.colorAccent)
-        canvas.drawRect(0F, 0F, loadingButtonUtils.progress, heightSize.toFloat(), paintRect)
-
         // draw download text
         canvas.drawText(
                 btnText,
@@ -135,10 +131,15 @@ class LoadingButton @JvmOverloads constructor(
                 paintText
         )
 
-        // draw download circle
-        paintCircle.color = Color.YELLOW
-        //canvas?.drawCircle(width.toFloat() * 2 / 3 + 40, height.toFloat() - 80, 40.0F, paintCircle)     // WRONG APPROACH
-        canvas.drawArc(
+        if (btnState == ButtonState.Loading) {
+            // draw the download fill
+            paintRect.color = getColor(context, R.color.colorAccent)
+            canvas.drawRect(0F, 0F, loadingButtonUtils.progress, heightSize.toFloat(), paintRect)
+
+            // draw download circle
+            paintCircle.color = Color.YELLOW
+            //canvas?.drawCircle(width.toFloat() * 2 / 3 + 40, height.toFloat() - 80, 40.0F, paintCircle)     // WRONG APPROACH
+            canvas.drawArc(
                 widthSize.toFloat() - 150f,
                 heightSize.toFloat() / 2 - 50f,
                 widthSize.toFloat()-50f,
@@ -147,7 +148,8 @@ class LoadingButton @JvmOverloads constructor(
                 loadingButtonUtils.angle,
                 true,
                 paintCircle
-        )    // copied
+            )    // copied
+        }
     }
 
     // Create a member function that sets the button state
