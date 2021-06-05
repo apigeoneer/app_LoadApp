@@ -89,7 +89,7 @@ class LoadingButton @JvmOverloads constructor(
         paintCircle.color = btnCircleColor
     }
 
-    // onSizeChanged() -> NOT NEEDED, SINCE WE HAVE onMeasure()
+    // onSizeChanged() -> NOT NEEDED, SINCE WE HAVE onMeasure()
 
     // If you need finer control over your view's layout parameters
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

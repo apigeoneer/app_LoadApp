@@ -52,7 +52,7 @@
                 android:id="@+id/glide_rb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checked="true"
+                android:checked="false"
                 android:onClick="onRadioButtonClicked"
                 android:text="Glide"
                 android:textColor="#434343"

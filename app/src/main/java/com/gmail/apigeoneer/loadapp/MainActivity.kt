@@ -31,8 +31,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var notificationManager: NotificationManager
-    private var urlSelected = GLIDE_URL                                        // default: Glide
-    private var repoSelected = "Glide repo"
+    private var urlSelected = ""
+    private var repoSelected = ""
 
     // Don't initialize here. Since binding's not yet initialized, you can't use it.
     // private val downloadUtils = DownloadUtils(this, binding.downloadCv, notificationManager)
@@ -53,7 +53,12 @@ class MainActivity : AppCompatActivity() {
                 IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
         binding.downloadCv.setOnClickListener {
-            downloadUtils.download(urlSelected, repoSelected)
+            if (urlSelected != "" && repoSelected != "") {
+                downloadUtils.download(urlSelected, repoSelected)
+            } else {
+                Toast.makeText(this, "Select a repo to start downloading", Toast.LENGTH_LONG)
+                    .show()
+            }
         }
 
         createChannel(
@@ -68,6 +73,11 @@ class MainActivity : AppCompatActivity() {
 
             // Check which radio button was clicked
             when (view.getId()) {
+                R.id.glide_rb ->
+                    if (checked) {
+                        urlSelected = GLIDE_URL
+                        repoSelected = "Glide repo"
+                    }
                 R.id.loadapp_rb ->
                     if (checked) {
                         urlSelected = LOADAPP_URL
