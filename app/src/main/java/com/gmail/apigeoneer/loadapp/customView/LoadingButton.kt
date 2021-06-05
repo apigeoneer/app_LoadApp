@@ -149,6 +149,14 @@ class LoadingButton @JvmOverloads constructor(
                 true,
                 paintCircle
             )    // copied
+
+            // draw download text
+            canvas.drawText(
+                btnText,
+                width.toFloat() / 3,
+                height.toFloat() - 55,
+                paintText
+            )
         }
     }
 
