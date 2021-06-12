@@ -5,7 +5,7 @@
 
 ## Highlights
 
-The app demonstrates certain key features, namely a Custom download button, notifications & Motion Layout.
+This app downloads 3 Github repos when a user selects a repo. It has a custom load button that animates to show the download progress, sends a notification when the download is complete & uses motion layout to make the app more interesting.
 
 * Download Button
   - This app has a load button by extendin teh Custom View. It is customized to display information (download progress) using canvas with desired color and style.
