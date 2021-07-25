@@ -51,7 +51,6 @@ fun NotificationManager.sendNotification(
             .setContentText(messageBody)
 
             .setContentIntent(contentPendingIntent)
-            .setAutoCancel(true)                      // delete the notification after it has been clicked
 
             .setStyle(bigPicStyle)
             .setLargeIcon(loadImage)
@@ -61,6 +60,8 @@ fun NotificationManager.sendNotification(
                     "View details",
                     contentPendingIntent
             )
+
+            .setAutoCancel(true)                      // delete the notification after it has been clicked
 
     // Deliver the notification
     notify(NOTIFICATION_ID, builder.build())
