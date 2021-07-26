@@ -8,4 +8,13 @@
     <string name="download_channel_id">download_channel_id</string>
     <string name="download_notification_channel_name">Download Channel</string>
     <string name="notification_description">Your download was successful!</string>
+    <string name="retrofit">Retrofit</string>
+    <string name="load_app">Load App</string>
+    <string name="glide">Glide</string>
+    <string name="download_github_repos">Download Github Repos</string>
+    <string name="load_app_logo">load app logo</string>
+    <string name="file">File :</string>
+    <string name="status">Status :</string>
+    <string name="download_complete">Download Complete</string>
+    <string name="ok">OK</string>
 </resources>
