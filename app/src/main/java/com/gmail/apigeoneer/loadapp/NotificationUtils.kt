@@ -18,7 +18,7 @@ fun NotificationManager.sendNotification(
     val contentIntent = Intent(applicationContext, DetailActivity::class.java)
     // passing values to the Detail Fragment
     contentIntent.apply {
-        putExtra("filename", messageBody)
+        putExtra("repoSelected", messageBody)
         putExtra("status", status)
     }
 

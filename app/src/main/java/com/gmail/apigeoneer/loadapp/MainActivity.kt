@@ -16,6 +16,7 @@ import android.widget.RadioButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import com.gmail.apigeoneer.loadapp.customView.ButtonState
 import com.gmail.apigeoneer.loadapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -34,9 +35,7 @@ class MainActivity : AppCompatActivity() {
     private var urlSelected = ""
     private var repoSelected = ""
 
-    // Don't initialize here. Since binding's not yet initialized, you can't use it.
-    // private val downloadUtils = DownloadUtils(this, binding.downloadCv, notificationManager)
-    private lateinit var downloadUtils: DownloadUtils
+    private var downloadID: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,20 +45,20 @@ class MainActivity : AppCompatActivity() {
                 this, NotificationManager::class.java
         ) as NotificationManager
 
-        downloadUtils = DownloadUtils(this, binding.downloadCv, notificationManager, repoSelected)
-
-        // register the download receiver
-        registerReceiver(downloadUtils.receiver,
-                IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
-
         binding.downloadCv.setOnClickListener {
+
             if (urlSelected != "" && repoSelected != "") {
-                downloadUtils.download(urlSelected, repoSelected)
+                download(urlSelected, repoSelected)
+                Log.d(TAG, "::::::::::::::::: $repoSelected ::::::::::::::::::")
+                Log.d(TAG, "::::::::::::::::: $urlSelected ::::::::::::::::::")
             } else {
                 Toast.makeText(this, "Select a repo to start downloading", Toast.LENGTH_LONG)
                     .show()
             }
         }
+
+        // Register the download receiver
+        registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
         createChannel(
                 getString(R.string.download_channel_id),
@@ -111,6 +110,63 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "VERSION.SDK_INT < O")
             Toast.makeText(this, "VERSION.SDK_INT < O", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private val receiver = object: BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+
+            val action = intent?.action
+
+            //Log.d(TAG, "::::::::::::::: $repoSelected ::::::::::::::::::")
+
+            if (id == downloadID) {
+                if (action.equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
+                    /**
+                     * get the download status & pass it to the notification
+                     * (so that it could then send it to the detail activity)
+                     */
+                    val query = DownloadManager.Query()
+                    query.setFilterById(id)
+                    val manager = context!!.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                    val cursor = manager.query(query)
+
+                    if (cursor.moveToFirst()) {
+                        if (cursor.count > 0) {
+                            val status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
+                            if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                                notificationManager.sendNotification(
+                                    repoSelected,
+                                    context,
+                                    "Download successful")
+                            } else {
+                                notificationManager.sendNotification(
+                                    repoSelected,
+                                    context,
+                                    "Download failed")
+                            }
+                            binding.downloadCv.setButtonState(ButtonState.Completed)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun download (selectedURL: String, selectedRepo: String) {
+        // set the download button to the loading state
+        binding.downloadCv.setButtonState(ButtonState.Loading)
+
+        val request =
+            DownloadManager.Request(Uri.parse(selectedURL))
+                .setTitle(selectedRepo)
+                .setDescription("Downloading $selectedRepo from internet")
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+                .setAllowedOverMetered(true)
+                .setAllowedOverRoaming(true)
+
+        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        downloadID = downloadManager.enqueue(request)        // enqueue puts the download request in the queue
     }
 
 }
